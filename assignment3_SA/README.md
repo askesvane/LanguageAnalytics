@@ -23,6 +23,7 @@ This is a dataset of over a million headlines taken from the Australian news sou
 - Activate the virtual environment by executing ```sentiment_environment/bin/activate```. You should now see that the environment is activated at your command line.
 - Run the .py script by executing ```python sentiment.py``` (one might have to write 'python3' instead of python). Note that the folder contains a .ipynb file as well and this script should not be run.
 - The .py script will run on a subset of 10.000 headlines which will take approx. 1 min. This can be adjusted at line 104 in the script. After the script has run, two plots can be found in the folder 'plots' within 'assignment3_SA'.
+- In case you have issues setting up the virtual environemnt locally on your computer and thus cannot run the script, I have left two plots in the folder based on the 10.000 headline subset.
 
 ### Summary describing the two plots 
 
