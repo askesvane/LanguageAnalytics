@@ -40,6 +40,9 @@ def date_creator(DF):
             'month': [int(date[4:6])],
             'day': [int(date[6:8])]})
     
+        # it could have been done like this: 
+            #data['publish_date'] = pd.to_datetime(data.publish_date, format="%Y%m%d")
+        
         # Create as a time object
         time_df = pd.to_datetime(time_df)
     
