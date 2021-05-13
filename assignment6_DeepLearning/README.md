@@ -18,7 +18,7 @@ First, the data is being preprocessed. Lines are chunked together according to t
 
 The data is split into a train and a test dataset according to the proportion also specified in the commandline. Here, the default is a test size of 0.25. The text is vectorized using TfidfVectorizer() only keeping the top 500 features and subsequently fed into a simple logistic regression model (using the LogisticRegression() function).
 
-### results and evaluation
+### Results and evaluation
 With the default parameters (a chunk size of 40 and a test size of 0.25), the weighted accuracy of the model is 33%. With 8 classification possibilities, this is above change indicating that the model has learned something from the lines in terms of predicting the respective season. However, the model performance is still very low and any prediction of season can be considered fairly unrealiable. 
 
 In addition, adjusting the chunk size is a moderation which could entail various issues one should be aware of. On the one hand, if the chunks are too small the model will have problems learning any patterns from the lines that could predict the respective season. There would simply not be information enough. On the other hand, if the chunks are too long the number of chunks per season will decrease dramatically. The model will then only we trained on very few chunks per season.
@@ -50,12 +50,13 @@ This repository has the following directory structure:
 
 | Column | Description|
 |--------|:-----------|
+```data``` | Folder containing the dialogue from GOT.
 ```out``` | Contains the outputs from running the scripts.
-```LogisticRegressionModel.py```| The first script containing my baseline model which is a 'classical' ML solution such with logistic regression.
-```DeepLearningModel.py```| The second script containing my deep learning solution.
+```DeepLearningModel.py```| Thescript containing my deep learning solution.
+```LogisticRegressionModel.py```| The script containing my baseline model which is a 'classical' logistic regression ML solution.
+```README.md``` | This very readme file.
 ```./create_lang_venv.sh``` | A bash script which automatically generates a new virtual environment 'DeepLearning_env', and install all the packages contained within 'requirements.txt'
 ```requirements.txt``` | A list of packages along with the versions that are required for the scripts to run.
-```README.md``` | This very readme file
 
 
 ## Usage (reproducing the results)
