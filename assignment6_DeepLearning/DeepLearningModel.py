@@ -55,7 +55,7 @@ def create_embedding_matrix(filepath, word_index, embedding_dim):
     word_index: indices from keras Tokenizer
     embedding_dim: dimensions of keras embedding layer
     """
-    vocab_size = len(word_index) + 1  # Adding again 1 because of reserved 0 index
+    vocab_size = len(word_index) + 1  # Adding 1 because of reserved 0 index
     embedding_matrix = np.zeros((vocab_size, embedding_dim))
 
     with open(filepath) as f:
@@ -71,6 +71,9 @@ def create_embedding_matrix(filepath, word_index, embedding_dim):
 # Balance data 
 def balance(dataframe, colname, n=500):
     """
+    The function is made by Ross a only slighty modified:
+    https://github.com/CDS-AU-DK/cds-language/blob/main/utils/classifier_utils.py
+    
     Function to balance data.
     dataframe = df to be balanced
     colname = column with labels the data should be balanced according to
@@ -84,10 +87,12 @@ def balance(dataframe, colname, n=500):
     return out
 
 # balance chunks
-"""
-Function using the already defined balance() function to balance the text chunks. 
-Return two lists containing labels and text"""
 def balance_chunks(labels, text):
+    """
+    Function using the already defined balance() function to balance the text chunks. 
+    Return two lists containing labels and text
+    """
+    # Create df to hold the data 
     df = pd.DataFrame()
     df["season"] = labels
     df["line_chunks"] = text
@@ -106,10 +111,10 @@ def balance_chunks(labels, text):
 
 
 # Chunk function
-"""
-Function that will take the data and return to lists, 
-one with labels and one with corresponding text chunks given the chunk size defined"""
 def chunk_me(DATA, chunk_size):
+    """
+    Function that will take the data and return to lists, 
+    one with labels and one with corresponding text chunks given the chunk size defined"""
     
     # Get a list of uniques seasons (1 to 8)
     seasons = DATA.Season.unique()
@@ -145,8 +150,8 @@ def chunk_me(DATA, chunk_size):
 # WORD EMBEDDINGS
 def word_embedding(X_train, X_test, tokenizer):
     """
-    Function that takes training and test data and returns them as tokenized"""
-    
+    Function that takes training and test data and returns them as tokenized
+    """
     # fit to training data - fit to the raw text data. vocabolary of 10000 words now fit onto our training data
     tokenizer.fit_on_texts(X_train)
     
@@ -161,7 +166,12 @@ def word_embedding(X_train, X_test, tokenizer):
 
 ### Padding
 def pad_me(X_train_toks, X_test_toks, balanced):
-    
+    """
+    Function that takes the tokenized train and test data as well as the balanced data. Both the train and
+    the test data is padded to correspond to the max chunk length extracted from the balanced data. 
+    The function returns the padded train and test data as well as the max length.
+    """
+    # Create a new column 'totalwords' in in balanced and get the max length of a chunk
     balanced['totalwords'] = balanced['line_chunks'].str.split().str.len()
     maxlen = int(balanced[balanced['totalwords'] == balanced['totalwords'].max()]['totalwords'])
 
@@ -178,6 +188,11 @@ def pad_me(X_train_toks, X_test_toks, balanced):
 
 
 def model_creator(vocab_size, embedding_dim, embedding_matrix, maxlen, l2):
+    """
+    This function creates and returns the CNN model.
+    As parameters, it takes hte vocabolary size, the embedding dimensions, the embedding matrix, 
+    the max length as well as the l2 regularizer.
+    """
     model = Sequential()
     
     # Embedding -> CONV+ReLU -> MaxPool -> FC+ReLU -> Out
@@ -187,7 +202,7 @@ def model_creator(vocab_size, embedding_dim, embedding_matrix, maxlen, l2):
                         input_length=maxlen,         # maxlen of padded doc
                         trainable=True))             # trainable embeddings
     
-    model.add(Conv1D(128, 5, # added at teh convolutional layer
+    model.add(Conv1D(128, 5, # added at the convolutional layer
                     activation='relu',
                     kernel_regularizer=l2))          # L2 regularization 
     model.add(GlobalMaxPool1D())
@@ -201,12 +216,14 @@ def model_creator(vocab_size, embedding_dim, embedding_matrix, maxlen, l2):
     
     return(model)
 
-def plot_history(H, epochs):
+def plot_history(H, epochs, filename):
     """
     Utility function for plotting model history using matplotlib
-    
     H: model history 
+    
     epochs: number of epochs for which the model was trained
+    The function has been made by Ross and only slightly motified to save the output:
+    https://github.com/CDS-AU-DK/cds-visual/blob/main/notebooks/session9.ipynb
     """
     plt.style.use("fivethirtyeight")
     plt.figure()
@@ -219,30 +236,51 @@ def plot_history(H, epochs):
     plt.ylabel("Loss/Accuracy")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("out/DLM_TraininglossAccuracy.png")
+    plt.savefig(f"out/{filename}")
 
+# report saver function
+def save_report(accuracy_train, accuracy_test, loss_train, loss_test, filename): # DLM_ClassificationReport.csv
+    """
+    Function that takes the loss and accuracy of the train and test, gathers the information in a df,
+    and saves it as a csv in the 'out' folder.
+    """
+    # Gather accuracy and loss in two lists
+    accuracy = [accuracy_train, accuracy_test]
+    loss = [loss_train, loss_test]
+    # create df
+    df = pd.DataFrame()
+    df["dataset"] = ["train", "test"]
+    df["accuracy"] = accuracy
+    df["loss"] = loss
+    # save df
+    df.to_csv(f"out/{filename}", index=False)
+    
+    
 ### MAIN FUNCTION
 
 def main(args):
     
     # Import chunk_size specified in the commanline
     chunk_size = args["chunk_size"]
+    test_size = args["test_size"]
     
     # Read the data as 'DATA' from the data folder
     filename = os.path.join("data", "Game_of_Thrones_Script.csv")
+    print("Importing the data...")
     DATA = pd.read_csv(filename, index_col=0)
     
     # Chunk up the lines to enable appropriate vectorisation and thus classification
+    print("The lines are chunked together...")
     labels, text = chunk_me(DATA, chunk_size)
     
     # Balance the chunks so all seasons are represented with the same amount of chunks
     season, line_chunks, balanced = balance_chunks(labels, text)
     
     # Split the data in train and test.
-    X_train, X_test, y_train, y_test = train_test_split(line_chunks,     # sentences for the model
-                                                        season,          # classification labels (seasons)
-                                                        test_size=0.25,   # create an 70/30 split
-                                                        random_state=42) # random state for reproducibility
+    X_train, X_test, y_train, y_test = train_test_split(line_chunks,           # sentences for the model
+                                                        season,                # classification labels (seasons)
+                                                        test_size=test_size,   # create an 70/30 split
+                                                        random_state=42)       # random state for reproducibility
 
     # Change the split data into numpy arrays
     X_train = X_train.to_numpy()
@@ -273,26 +311,30 @@ def main(args):
     
     # Create regularizer 
     l2 = L2(0.0001)
-    
-    
+     
     ### Create and compile the model
     model = model_creator(vocab_size, embedding_dim, embedding_matrix, maxlen, l2)
 
     # Fit the model
+    print("The data is being fed to the model...")
     history = model.fit(X_train_pad, y_train,
                     epochs=20,
                     verbose=False,
                     validation_data=(X_test_pad, y_test),
                     batch_size=10)
 
-    # evaluate and print accuracy to terminal
-    loss, accuracy = model.evaluate(X_train_pad, y_train, verbose=False)
-    print("Training Accuracy: {:.4f}".format(accuracy))
-    loss, accuracy = model.evaluate(X_test_pad, y_test, verbose=False)
-    print("Testing Accuracy:  {:.4f}".format(accuracy))
+    # evaluate and print accuracy to terminal + save to out folder
+    loss_train, accuracy_train = model.evaluate(X_train_pad, y_train, verbose=False)
+    print("Training Accuracy: {:.4f}".format(accuracy_train))
+    loss_test, accuracy_test = model.evaluate(X_test_pad, y_test, verbose=False)
+    print("Testing Accuracy:  {:.4f}".format(accuracy_test))
+    save_report(accuracy_train, accuracy_test, loss_train, loss_test, "DLM_ClassificationReport.csv")
 
-    # Save plot of accuracy and loss in the out folder
-    plot_history(history, epochs = 20)
+    # Save plot of accuracy and loss in the out folder along with an illustration of the model
+    plot_history(history, epochs = 20, filename = "DLM_TraininglossAccuracy.png")
+    plot_model(model, to_file='out/DLM_Model.jpg', show_shapes=True, show_layer_names=True)
+    
+    print("Accuracy and loss have been saved in the folder 'out' as 'DLM_ClassificationReport.csv' along with a plot 'DLM_TraininglossAccuracy.png'. An illustration of the model 'DLM_Model.png' has as well been saved in the folder.")
 
 
     
@@ -301,8 +343,10 @@ if __name__=="__main__":
     
     # Argument parser
     ap = argparse.ArgumentParser()
-    ap.add_argument("-c", "--chunk_size", type = int, default = 5,
-                    help = "Specify the amount of lines that should be chunked together. Default = 5")
+    ap.add_argument("-c", "--chunk_size", type = int, default = 40,
+                    help = "Specify the amount of lines that should be chunked together. Default = 40")
+    ap.add_argument("-t", "--test_size", type = float, default = 0.25,
+                    help = "Specify the test size. Default = 0.25")
     
     # Parse arguments. args is now an object containing all arguments added through the terminal. 
     argument_parser = vars(ap.parse_args())

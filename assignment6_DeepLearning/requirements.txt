@@ -7,5 +7,7 @@ pyLDAvis==3.2.2
 gensim==3.8.3
 tensorflow==2.4.1
 tensorflow-estimator==2.4.0
+pydot==1.4.2
+graphviz==0.16
 sklearn
 nltk
