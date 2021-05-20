@@ -113,7 +113,7 @@ def balance_chunks(labels, text):
 # Chunk function
 def chunk_me(DATA, chunk_size):
     """
-    Function that will take the data and return to lists, 
+    Function that will take the data and return two lists, 
     one with labels and one with corresponding text chunks given the chunk size defined"""
     
     # Get a list of uniques seasons (1 to 8)
@@ -239,7 +239,7 @@ def plot_history(H, epochs, filename):
     plt.savefig(f"out/{filename}")
 
 # report saver function
-def save_report(accuracy_train, accuracy_test, loss_train, loss_test, filename): # DLM_ClassificationReport.csv
+def save_report(accuracy_train, accuracy_test, loss_train, loss_test, filename):
     """
     Function that takes the loss and accuracy of the train and test, gathers the information in a df,
     and saves it as a csv in the 'out' folder.
@@ -260,7 +260,7 @@ def save_report(accuracy_train, accuracy_test, loss_train, loss_test, filename):
 
 def main(args):
     
-    # Import chunk_size specified in the commanline
+    # Import chunk_size specified in the commandline
     chunk_size = args["chunk_size"]
     test_size = args["test_size"]
     

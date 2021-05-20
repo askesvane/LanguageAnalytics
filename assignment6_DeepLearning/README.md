@@ -42,7 +42,7 @@ The training accuracy is 1.0 while the test accuracy is 0.24. The model is thus 
 
 Apart from being a very badly performing model in terms of predicting accuracy, the training accuracy of 1.0 indicates that the model is overfitting to the training data. The plot 'DLM_TraininglossAccuracy.png' also shows the overfitting. After just 2 epochs the training- and test accuracy graphs start to diverge with the test accuracy graph stagnating around 0.25 while the training accuracy graph keeps increasing until reaching 1.0.
 
-The complexity of this deep learning classification model is quite high and modifying different parameters could potentially increase model performance while diminishing overfitting. With this kept in mind, the extremely low performance however indicates that the dialogue in 'Game of Thrones' is not a good predictor of the season.
+The complexity of this deep learning classification model is quite high and modifying different parameters could potentially increase model performance while diminishing overfitting. With this kept in mind, the extremely low performance however indicates that the dialogue in 'Game of Thrones' is not a good predictor of season.
 
 ## Repository structure and files
 
@@ -52,7 +52,7 @@ This repository has the following directory structure:
 |--------|:-----------|
 ```data``` | Folder containing the dialogue from GOT.
 ```out``` | Contains the outputs from running the scripts.
-```DeepLearningModel.py```| Thescript containing my deep learning solution.
+```DeepLearningModel.py```| The script containing my deep learning solution.
 ```LogisticRegressionModel.py```| The script containing my baseline model which is a 'classical' logistic regression ML solution.
 ```README.md``` | This very readme file.
 ```./create_lang_venv.sh``` | A bash script which automatically generates a new virtual environment 'DeepLearning_env', and install all the packages contained within 'requirements.txt'
@@ -78,7 +78,7 @@ wget http://nlp.stanford.edu/data/glove.6B.zip
 unzip -q glove.6B.zip
 ```
 ### Run the scripts
-The scripts should be executed from the terminal. You can specify the number of lines that should be chunked together as well as the size of the test dataset.
+The scripts should be executed from the terminal. You can specify the number of lines that should be chunked together as well as the size of the test dataset. I have specified the default values.
 ```bash
 python LogisticRegressionModel.py --chunk_size 40 --test_size 0.25
 python DeepLearningnModel.py --chunk_size 40 --test_size 0.25
