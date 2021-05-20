@@ -199,7 +199,7 @@ def main(args):
 
     # Save heatmap confusion matrix
     y_test = pd.Series(y_test)
-    plot_cm(y_test, y_pred, "out/LRM_ConfusionMatrix.png", normalized=False)
+    plot_cm(y_test, y_pred, "out/LRM_ConfusionMatrix.png", normalized=True)
 
 
 # Execute main() function
@@ -207,7 +207,7 @@ if __name__=="__main__":
     
     # Argument parser (test size and chunk size can be specified in the commandline)
     ap = argparse.ArgumentParser()
-    ap.add_argument("-c", "--chunk_size", type = int, default = 40,
+    ap.add_argument("-c", "--chunk_size", type = int, default = 20,
                     help = "Specify the amount of lines that should be chunked together. The default is 20.")
     ap.add_argument("-t", "--test_size", type = float, default = 0.25,
                     help = "Specify the test size of the data. The default is 0.25.")

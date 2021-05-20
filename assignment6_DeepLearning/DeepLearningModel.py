@@ -343,7 +343,7 @@ if __name__=="__main__":
     
     # Argument parser
     ap = argparse.ArgumentParser()
-    ap.add_argument("-c", "--chunk_size", type = int, default = 40,
+    ap.add_argument("-c", "--chunk_size", type = int, default = 20,
                     help = "Specify the amount of lines that should be chunked together. Default = 40")
     ap.add_argument("-t", "--test_size", type = float, default = 0.25,
                     help = "Specify the test size. Default = 0.25")

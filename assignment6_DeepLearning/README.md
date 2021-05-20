@@ -14,7 +14,7 @@ Start by making a baseline using a 'classical' ML solution such as CountVectoriz
 ## The logistic regression model
 
 ### Methods 
-First, the data is being preprocessed. Lines are chunked together according to the chunk size specified in the commandline. The default is 40 lines per chunk. In addition, the data is being balanced so all seasons are represented with the same amount of chunks. 
+First, the data is being pre-processed. Lines are chunked together according to the chunk size specified in the commandline. The default is 40 lines per chunk. In addition, the data is being balanced so all seasons are represented with the same amount of chunks. 
 
 The data is split into a train and a test dataset according to the proportion also specified in the commandline. Here, the default is a test size of 0.25. The text is vectorized using TfidfVectorizer() only keeping the top 500 features and subsequently fed into a simple logistic regression model (using the LogisticRegression() function).
 
@@ -26,11 +26,11 @@ In addition, adjusting the chunk size is a moderation which could entail various
 ## The deep learning model (CNN)
 
 ### Methods
-The first preprocessing steps are identical to the preprocessing steps for the logistic regression model. The data is being chunked together according to the chunk size specified in the commandline. The data is subsequently balanced by season and divided into a train and a test dataset.
+The first pre-processing steps are identical to the pre-processing steps for the logistic regression model. The data is being chunked together according to the chunk size specified in the command line. The data is subsequently balanced by season and divided into a train and a test dataset.
 
 With keras Tokenizer() the text strings are converted into numbers. I define the length of the corpus to be 10.000 regardless of the actual length. The text chunks are afterwards 'padded' so they are of equal length corresponding to the longest text chunk. 
 
-The numerical representations are then converted into a dense embedded representaion which facilitates that context can be taken into consideration. The library ```GloVe``` is used to enhance the model as every word in the corpus is mapped onto pretrained embeddings from GloVe. Thus, the model incorporates pretrained weights rather than only learning new weights from the data. The number of embedding dimensions is defined as 50 and the text now has a 2D dimensionality.
+The numerical representations are then converted into a dense embedded representation which facilitates that context can be taken into consideration. The library ```GloVe``` is used to enhance the model as every word in the corpus is mapped onto pretrained embeddings from GloVe. Thus, the model incorporates pretrained weights rather than only learning new weights from the data. The number of embedding dimensions is defined as 50 and the text now has a 2D dimensionality.
 
 __The model__<br>
 The data is first fed into an embedding layer with the pretrained GloVe weights of the embedding matrix. The embedding layer is followed by a convolution layer employing the 'ReLU' activation function and with L2 regularization of 0.0001. This will constrain the model to learn a more regular set of weights in order to prevent overfitting. Then follows a max pooling layer and two dense layers, the first with a 'ReLU' activation function and the second with a 'softmax' activation function with 8 potential outcomes (an illustration of the model can be found in the folder 'out' as 'DLM_Model.jpg').
@@ -71,7 +71,7 @@ bash ./create_lang_venv.sh
 source ./DeepLearning_env/bin/activate
 ```
 ### Download the ```Glove``` library
-In order to run the script 'DeepLearningModel.py', one needs to download an unzip the pretrained weights of the 'glove' library. Please execute the following from the terminal while being in the folder 'assignment6_DeepLearning' (the zipfile will take 3-4 minutes to download):
+To run the script 'DeepLearningModel.py', one needs to download an unzip the pretrained weights of the 'glove' library. Please execute the following from the terminal while being in the folder 'assignment6_DeepLearning' (the zipfile will take 3-4 minutes to download):
 
 ```bash
 wget http://nlp.stanford.edu/data/glove.6B.zip
@@ -80,7 +80,7 @@ unzip -q glove.6B.zip
 ### Run the scripts
 The scripts should be executed from the terminal. You can specify the number of lines that should be chunked together as well as the size of the test dataset. I have specified the default values.
 ```bash
-python LogisticRegressionModel.py --chunk_size 40 --test_size 0.25
-python DeepLearningnModel.py --chunk_size 40 --test_size 0.25
+python LogisticRegressionModel.py --chunk_size 20 --test_size 0.25
+python DeepLearningnModel.py --chunk_size 20 --test_size 0.25
 ```
 The classification reports and plots can be found in the folder called 'out'. In this folder, files starting with 'LRM_' relate to the logistic regression model and 'DLM_' relate to the deep learning model.
