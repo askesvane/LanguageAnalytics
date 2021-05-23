@@ -1,8 +1,17 @@
 # Assignment 7 - Wine Classification
+__Self-assigned project__
 
 ## Description of the assignment
 
+__Assignment__
+
 The assignment is set to build a classification model which can predict the variety of grapes used to produce a certain wine as well as the province in which the wine is produced only based on its flavour description. 
+
+__Contribution__
+
+This assignment was written as a group project between Hanna Janina Matera (au603273) and Aske Svane Qvist (au613522), where: 
+
+> “Both students contributed equally to every stage of this project from initial conception and implementation, through the production of the final output and structuring of the repository. (50/50%)”
 
 __Background__
 
@@ -15,10 +24,6 @@ Thus, the two main questions asked in the current assignment are:
 > Q1: Can the variety of grapes used to produce a given wine be predicted from the linguistic description of its flavor characteristics?
 
 > Q2: Can the province of a given wine be predicted from the linguistic description of its flavor characteristics?
-
-__Data__
-
-Data used in the current study was obtained from the online service for data scientist’s community, [Kaggle](https://www.kaggle.com/datasets). All data was retrieved as a single csv-file with 130,000 entries of different wines obtained through web-scraping of the popular wine-rating service, [WineEnthusiast](https://www.wineenthusiast.com/). Among other information, the data included a verbal description of each wine's flavor characteristics, the province of production as well as the grape, but also additional information such as the price per bottle, taste rating scores, and the name of the winery. The data can be viewed and downloaded [here](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csv).
 
 
 ## Methods
@@ -48,6 +53,10 @@ Running with default parameters, the training accuracy was predicted to be 99.9%
 As was the case when predicting the grape, the model seems to be overfitting a bit. After about 2 epochs, the training and test accuracy as well as the training and test loss start to diverge (see the plot province_TraininglossAccuracy.jpg') indicating that the model is overfitting to the training data.
 
 All results and figures with the outcome graphs can be found in the 'out' folder.
+
+## Data
+
+Data used in the current study was obtained from the online service for data scientist’s community, [Kaggle](https://www.kaggle.com/datasets). All data was retrieved as a single csv-file with 130,000 entries of different wines obtained through web-scraping of the popular wine-rating service, [WineEnthusiast](https://www.wineenthusiast.com/). Among other information, the data included a verbal description of each wine's flavor characteristics, the province of production as well as the grape, but also additional information such as the price per bottle, taste rating scores, and the name of the winery. The data can be viewed and downloaded [here](https://www.kaggle.com/zynicide/wine-reviews?select=winemag-data-130k-v2.csv).
 
 ## Repository structure and files
 This repository has the following directory structure:
