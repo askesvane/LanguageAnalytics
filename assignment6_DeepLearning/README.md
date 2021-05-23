@@ -1,7 +1,7 @@
-# Assignment 6 - Deep Learning
+# Assignment 6 - Text Classification using Deep Learning
 
 ## Description of the assignment
-__Text classification using Deep Learning__
+__Game of Thrones season classification task__
 
 Winter is... hopefully over.
 The assignment is to see how successfully you can use CNN’s to classify a specific kind of cultural data - scripts from the TV series Game of Thrones.
