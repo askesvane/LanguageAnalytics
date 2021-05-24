@@ -1,5 +1,8 @@
 # Assignment 6 - Text Classification using Deep Learning
 
+__Contribution__<br>
+The code of this assignment was created by me.
+
 ## Description of the assignment
 __Game of Thrones season classification task__
 

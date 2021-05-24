@@ -6,7 +6,7 @@
 import os
 import argparse
 
-# Data analysis
+# Data handling
 import pandas as pd
 
 # drawing
@@ -137,12 +137,4 @@ if __name__=="__main__":
     
     # run main() function
     main(argument_parser)
-    
-
-
-
-#spacytextblob
-#spacy==2.3.5
-#tqdm==4.56.2
-
 
