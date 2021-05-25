@@ -1,11 +1,9 @@
-
-## Assignment on sentiment scores from headlines in the period 2003-2021
-
+#!/usr/bin/env python
 
 #_______________# Import packages #_______________# 
 
-
 # import packages
+import argparse
 import spacy
 import os
 import pandas as pd
@@ -21,10 +19,14 @@ nlp.add_pipe(spacy_text_blob)
 
 #_______________# The script #_______________#
 
+### FUNCTIONS
 
-# Function to change the date column into an actual time object
+# date_function: 
 def date_creator(DF):
-    
+    """
+    Function that changes the date column into an actual time object.
+    The function takes the dataframe as the only parameter.
+    """
     # Creating empty list for the transformation of dates
     all_dates = []
 
@@ -39,9 +41,6 @@ def date_creator(DF):
             'year': [int(date[0:4])],
             'month': [int(date[4:6])],
             'day': [int(date[6:8])]})
-    
-        # it could have been done like this: 
-            #data['publish_date'] = pd.to_datetime(data.publish_date, format="%Y%m%d")
         
         # Create as a time object
         time_df = pd.to_datetime(time_df)
@@ -54,9 +53,13 @@ def date_creator(DF):
     
     return(DF)
 
-# Function to calculate sentiment scores for every headline in a df and append in a new column
+
+# Sentiment calculater function:
 def sentiment_calculator(DF):
-    
+    """
+    Function to calculate sentiment scores for every headline in a df and append in a new column.
+    The function takes the dataframe as the only parameter.
+    """
     # Create empty df for the sentiment scores
     scores = []
 
@@ -71,9 +74,15 @@ def sentiment_calculator(DF):
     
     return(DF)
 
-# Function to create plots
+# Function plot creator:
 def plot_creator(DF, days, title):
-    
+    """
+    Function that creates the plots with rolling time averages.
+    It takes the the parameters:
+    - a dataframe
+    - Number of days it should average over in the plot
+    - A plot title.
+    """
     # Create a dataframe grouped by dates (only one row per date with a mean sentiment score)
     grouped_df = DF.groupby("publish_date").mean("sentiment_scores")
 
@@ -89,50 +98,60 @@ def plot_creator(DF, days, title):
     #add ylabel 
     plt.ylabel("Mean sentiment score")
 
+    # Save the figure
     figure_name = 'plots/{}_days_rolling.png'.format(days)
     plt.savefig(figure_name)
-    
     plt.clf()
+    
+    return
 
-
-def main():
+### MAIN FUNCTION
+def main(args):
+    
+    # Message to terminal
+    print("Importing and pre-processing the data...")
     
     # Create a data path
     in_file = os.path.join("data", "abcnews-date-text.csv")
+    
     # read in as pandas df
     data = pd.read_csv(in_file)
 
-    data = data.sample(1000)
+    # Subset the data given what has been specified in the command line.
+    subset = args["subset"]
+    print(f"The visualisations will be created on a sample of {subset} headlines.")
+    data = data.sample(subset)
     
     # Create date object in df
     data = date_creator(data)
     
+    # Message to terminal
+    print("Calculating sentiment scores...")
+    
     # Get sentiment scores
     data = sentiment_calculator(data)
+    
+    # Message to terminal
+    print("Creating plots...")
     
     # Plots
     plot_creator(data, 7, "Mean sentiment score over time with a 1 week rolling average")
     plot_creator(data, 30, "Mean sentiment score over time with a 1 month rolling average")
     
+    # Message to terminal
+    print("The plots have successfully been saved in the folder 'plots' as '7_days_rolling.png' and '30_days_rolling.png'.")
     
-
-#_______________# The end #_______________#
+### RUN MAIN
     
 if __name__=="__main__":
-    main()
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    # Argument parser
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-s", "--subset", type = int, default = 10000,
+                    help = "Specify the size of the subset. The default is 10,000.")
 
-
-
+    # Parse arguments. args is now an object containing all arguments added through the terminal. 
+    argument_parser = vars(ap.parse_args())
+    
+    # run main() function
+    main(argument_parser)
