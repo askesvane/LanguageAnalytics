@@ -7,7 +7,7 @@ The code of this assignment was created by me.
 
 __Dictionary-based sentiment analysis with Python__
 
-This assignment will be based on [this](https://www.kaggle.com/therohk/million-headlines) csv-file from kaggle. It is a dataset of over a million headlines taken from the Australian news source ABC (Start Date: 2003-02-19 ; End Date: 2020-12-31).
+This assignment will be based on [this](https://www.kaggle.com/therohk/million-headlines) csv-file from kaggle. It is a dataset of over a million headlines taken from the Australian news source ABC (Start Date: 2003-02-19; End Date: 2020-12-31).
 
 The assignment is to:
 - Calculate the sentiment score for every headline in the data. You can do this using the spaCyTextBlob approach that we covered in class or any other dictionary-based approach in Python.
@@ -18,14 +18,14 @@ The assignment is to:
 
 ## Methods 
 
-In order to plot the mean sentiment of the headlines over time, the script employs an nlp pipeline to get the sentiment scores. For this task, I use spacy's "en_core_web_sm". The sentiment scores are average over both 7 days and 30 days and subsequently plotted with matplotlib.
+In order to plot the mean sentiment of the headlines over time, the script employs an nlp pipeline to get the sentiment scores. For this task, I use spacy's pipeline "en_core_web_sm". In addition, I add the pipeline component "spaCyTextBlob" to employ the extension ```._.polarity``` when calculating the sentiment scores. The sentiment scores are averaged over both 7 days and 30 days and subsequently plotted with matplotlib.
 
 ## Results and evaluation
 
-__Summary describing the two plots__
+___Summary describing the two plots___
 
 The two plots are showing the average sentiment scores of newspaper headlines in the period 2003-2021. One plot shows the sentiment scores averages on a 1 week rolling average and the other on a 1 month rolling average. An increasing amount of days grouped together simplifies the plot enhancing interpretability. Thus, the 1 week rolling average plot contains substantially more flucturations compared to the 1 month rolling average plot.
-- From the 1 week rolling average plot, it is extremely difficult to draw conclusions on general trends as any potential trends seem to drown in noisy flucturations.
+- From the 1 week rolling average plot, it is extremely difficult to draw conclusions on general trends as any potential trends seem to drown in noisy fluctuations.
 - This is to a great extent the same case in the 1 month rolling average plot. However, there seems to be periods in time where the headlines are generally more positive and periods where they are generally more negative. A general increase/decrease across years do not seem to be apparent.
 
 ## Repository structure and files
