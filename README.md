@@ -1,4 +1,4 @@
-# LanguageAnalytics
+# Language Analytics
 
 __Cultural Data Science__
 
