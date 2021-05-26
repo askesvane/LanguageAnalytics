@@ -35,7 +35,7 @@ Upon necessary preprocessing the data is divided into a train and a test dataset
 
 __The model__
 
-The preprocessed data is first fed into an embedding layer with the pretrained GloVe weights of the embedding matrix. The embedding layer is followed by a convolution layer employing the 'ReLU' activation function and with L2 regularization of 0.0001. This has been included to constrain the model to learn a more regular set of weights in order to prevent overfitting. Then follows a max pooling layer and two dense layers, the first with a 'ReLU' activation function and the second with a 'softmax' activation function with *n* potential outcomes (where n is the number of outcome categories which can be specified from the command line). The model is then compiled using 'Adam' as the optimizer and 'categorical crossentropy' as the loss function parameter.
+The pre-processed data is first fed into an embedding layer with the pretrained GloVe weights of the embedding matrix. The embedding layer is followed by a convolution layer employing the 'ReLU' activation function and with L2 regularization of 0.0001. This has been included to constrain the model to learn a more regular set of weights to prevent overfitting. Then follows a max pooling layer and two dense layers, the first with a 'ReLU' activation function and the second with a 'softmax' activation function with *n* potential outcomes (where n is the number of outcome categories which can be specified from the command line). The model is then compiled using 'Adam' as the optimizer and 'categorical crossentropy' as the loss function parameter.
 
 
 ## Results and evaluation
@@ -53,6 +53,13 @@ Running with default parameters, the training accuracy was predicted to be 99.9%
 As was the case when predicting the grape, the model seems to be overfitting a bit. After about 2 epochs, the training and test accuracy as well as the training and test loss start to diverge (see the plot province_TraininglossAccuracy.jpg') indicating that the model is overfitting to the training data.
 
 All results and figures with the outcome graphs can be found in the 'out' folder.
+
+__General considerations__
+
+The model is in both cases performing surprisingly well which could raise some degree of suspicion. One potential methodological issue in the script could be specific words revealing the given label without the model learning anything from the rest of the text. Even though all the actual labels are removed from the text corpus, there might still be words referring directly to a category and thus disclosing the label. For instance, one of the top provinces is ‘Northern Spain’. It might be the case that the descriptions generally mention the specific Spanish region (like Catalonia, Galicia etc.). The model would in turn be trained to recognise all wines mentioning a Spanish region as belonging to the category ‘Northern Spain’ disregarding any other features of the description. 
+
+In sum, there could be a general issue with additional toponyms referring to the specific province apart from the name of the province itself. One could imagine that a similar issue applies to the prediction of grapes.
+
 
 ## Data
 
