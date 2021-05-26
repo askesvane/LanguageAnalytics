@@ -13,6 +13,7 @@ import argparse
 
 ### FUNCTIONS
 
+# frequency function
 def freq(wordlist): 
     """
     Function to calculate word frequency from a list of words.

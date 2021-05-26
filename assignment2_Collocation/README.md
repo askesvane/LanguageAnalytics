@@ -17,16 +17,16 @@ Using a text corpus found on the cds-language GitHub repo or a corpus of your ow
 
 ## Methods
 
-As the task is to create an output file containing every collocate, their raw frequencies as well as MI, I need to calculate the MI. In order to do so, I first have to calculate the observed co-occurance frequency and the expected co-occurance frequency of each word co-occuring with the keyword. I follow the documentation which can be found [here](http://collocations.de/AM/index.html). These observed and expected frequencies are then employed to calculate the MI; the MI is calculated as the log of the observed frequency divided by the expected frequency.
+As the task is to create an output file containing every collocate, their raw frequencies as well as MI, I need to calculate the MI. In order to do so, I first have to calculate the observed co-occurance frequency and the expected co-occurance frequency of each word co-occuring with the keyword. I follow the documentation [here](http://collocations.de/AM/index.html). These observed and expected frequencies are then employed to calculate the MI; the MI is calculated as the log of the observed frequency divided by the expected frequency.
 
 ## Evaluation
 
 The command line tool successfully returns a csv-file in the folder 'out' with the information 'collocate', 'raw_frequency', and 'MI'. The rows are sorted after frequency where the words with lowest co-occurance frequency come first and highest co-occurance frequency come last.
 
-__Minor considerations__
-The collocates are defined as appearing within a specified 'window' around the keyword measured in characters. Thus, all the words within the window are to the same degree considered as co-occuring with the keyword. The window size is however arbitrarily defined (the default is 30 characters on each side) and can be specified to be of any size in the command line. This could in turn alter the content of the output file dramatically. 
+__Minor considerations__<br>
+The collocates are defined as appearing within a specified 'window' around the keyword measured in characters. Thus, all the words within the window are to the same degree considered as co-occuring with the keyword. In terms of meaning, there is however a difference between words appearing right next to each other and words appearing with several words between them. The window size is arbitrarily defined (the default is 30 characters on each side) and can be specified to be of any size in the command line. This could in turn alter the content of the output file dramatically as well as potential conclusions drawn from it.
 
-The output file contains several stopwords such as 'the', 'a', 'of', etc. from which it is hard to say anything about the keyword. To extract meaningful information from the output, I could have excluded these according to a stopword dictionary.
+The output file contains a lot of stopwords such as 'the', 'a', 'of', etc. from which it is hard to say anything about the keyword. To extract meaningful information from the output, I could have excluded these according to a stopword dictionary.
 
 ## Repository structure and files
 This repository has the following directory structure:
