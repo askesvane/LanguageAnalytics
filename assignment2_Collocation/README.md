@@ -54,9 +54,9 @@ source ./collocation_env/bin/activate
 ```
 
 ### Execute the script 
-Now, the script can be executed. From the command line, one is *required* to specify a keyword (--keyword) to which the script should find collocations. Additionally, one can specify the window size (--window_size) in characters (the desfault is 30) and a folder (--file_path) in 'data' with txt-files on which the script should perform the analysis (the default is 'Stevenson').
+Now, the script can be executed. From the command line, one is *required* to specify a keyword (--keyword) to which the script should find collocations. Additionally, one can specify the window size (--window_size) in characters (the default is 30) and a folder (--file_path) in 'data' with txt-files on which the script should perform the analysis (the default is 'Stevenson').
 
 ```bash
-python sentiment.py --keyword [write a word here] --window_size 30 --file_path Stevenson
+python collocation.py --keyword [write a word here] --window_size 30 --file_path Stevenson
 ```
 After running, the output csv-file can be found in the folder ```out```.
